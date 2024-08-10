@@ -1,6 +1,6 @@
 lang                  : "繁體中文 (台灣)"
-bot.load.BotClient    : "正在讀取機器人客戶端"
-bot.load.shard        : "正在請求分片資訊"
+bot.load.BotClient    : "正在載入機器人客戶端"
+bot.load.shard        : "正在載入分片資訊"
 bot.load.cluster      : "正在讀取集群資訊"
 bot.load.machine      : "正在讀取跨主機功能"
 bot.load.events       : "正在讀取事件"
