@@ -16,13 +16,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '20'  # 使用 Node.js 20
 
     - name: Install dependencies
       run: npm install
 
     - name: Run translation processing script
-      run: node build.js
+      run: node processYamlFiles.js
 
     - name: Commit and push changes
       uses: EndBug/add-and-commit@v9
