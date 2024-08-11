@@ -3,7 +3,7 @@ const Backend = require('i18next-fs-backend');
 // const yaml = require('yaml');
 // const fs = require('fs');
 const path = require('path');
-
+let hasInitialized = false;
 
 async function initI18next() {
     await
@@ -23,16 +23,25 @@ async function initI18next() {
                 load: 'all',
                 ns: 'default',
                 defaultNS: 'default',
+                defaultValue: '# Missing translation',
                 preload: Object.keys(require('./lang.json').languages),
+            })
+            .then(() => {
+                hasInitialized = true;
             });
 }
 
-async function t(lang = 'zh_TW', msg, ...args) {
-    await initI18next();
-    await i18next.changeLanguage(lang);
+async function translation(lang = 'zh_TW', msg, ...args) {
+    if (!hasInitialized) await initI18next();
+    // await i18next.changeLanguage(lang);
     return i18next.t(msg, {
         lng: lang || 'zh_TW',
+        fallbackLng: 'zh_TW',
+        defaultValue: '# Missing translation: ' + msg,
         ...args
     });
 }
-module.exports = { i18next, initI18next, t };
+
+const t = i18next.t;
+
+module.exports = { i18next, initI18next, t, translation };
