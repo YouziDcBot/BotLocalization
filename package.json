@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "本地化文本",
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "start": "node index.js",
     "build": "npm i && node build.js",
