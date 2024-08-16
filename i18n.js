@@ -45,3 +45,54 @@ async function translation(lang = 'zh_TW', msg, ...args) {
 const t = i18next.t;
 
 module.exports = { i18next, initI18next, t, translation };
+
+/**
+ * TO-DO: 
+ * 名稱轉換器，用於將不同命名法的名稱轉換為其他命名法的名稱。
+ * 讓翻譯格式更加統一，但輸入的方式可以是不同的命名法。
+ */
+
+// enum NamingConvention {
+//     CamelCase = "camelCase",
+//     SnakeCase = "snake_case",
+//     KebabCase = "kebab-case",
+//     PascalCase = "PascalCase",
+//     SpaceCase = "space case",
+// }
+
+// function convertNaming(input: string, outputConvention: NamingConvention): string {
+
+//     const words = input
+//         .replace(/([a-z])([A-Z])/g, "$1 $2") // ...aB... -> ...a B...
+//         .replace(/[-_ ]+/g, " ") // ...a_B... -> ...a B...
+//         .replace(/([a-zA-Z])([0-9])/g, "$1 $2") // ...a0... -> ...a 0...
+//         .replace(/([0-9])([a-zA-Z])/g, "$1 $2") // ...0a... -> ...0 a...
+//         .toLowerCase()
+//         .split(" ");
+
+//     switch (outputConvention) {
+//         case NamingConvention.CamelCase:
+//             return words
+//                 .map((word, index) =>
+//                     index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
+//                 )
+//                 .join("");
+
+//         case NamingConvention.SnakeCase:
+//             return words.join("_");
+
+//         case NamingConvention.KebabCase:
+//             return words.join("-");
+
+//         case NamingConvention.PascalCase:
+//             return words
+//                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+//                 .join("");
+
+//         case NamingConvention.SpaceCase:
+//             return words.join(" ");
+
+//         default:
+//             return input;
+//     }
+// }
