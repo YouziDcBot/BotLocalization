@@ -1,4 +1,4 @@
-const { i18next, initI18next, t } = require('./i18n');
+const { i18next, initI18next, t, translation } = require('./i18n');
 // i18n 示例
 // (async () => {
 //     await initI18next();
