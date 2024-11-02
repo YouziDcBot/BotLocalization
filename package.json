@@ -2,10 +2,10 @@
   "name": "botlocalization",
   "version": "1.0.0",
   "description": "本地化文本",
-  "main": "index.js",
+  "main": "build.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "start": "node index.js",
+    "start": "node .",
     "build": "npm i && node build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

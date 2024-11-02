@@ -41,23 +41,12 @@ function writeYamlFile(filePath, data) {
     fs.writeFileSync(filePath, formattedYamlStr, "utf8");
 }
 
-const baseTrans = readYamlFile(path.join(__dirname, "locate/zh-tw.yml"));
+const baseTrans = readYamlFile(path.join(__dirname, "locate/zh-TW.yml"));
 const langJson = readLangJson(path.join(__dirname, "lang.json"));
 
-// 添加缺失的翻譯項目
-function addMissingTranslations(existingData, baseTranslations) {
-
-    const updatedTranslations = { lang: langJson[fileBaseName], ...existingData };
-    for (const [key, value] of Object.entries(baseTranslations)) {
-        if (!(key in updatedTranslations)) {
-            updatedTranslations[key] = `# Missing: ${ value }`; // 標記為缺失項
-        }
-    }
-    return updatedTranslations;
-}
 
 // 讀取所有 YAML 文件
-glob("locate/**/*.yml", { ignore: "node_modules/**" })
+glob("locate/**/*.yml", { ignore: ["node_modules/**", "locate/**/*.missing.yml"] })
     .then(files => {
         files.forEach(fileName => {
             // 讀取

@@ -1,7 +1,0 @@
-const { i18next, initI18next, t, translation } = require('./i18n');
-// i18n 示例
-// (async () => {
-//     await initI18next();
-//     console.log(t('package_i18n_done', { lng: 'zh_tw' }));
-// })();
-module.exports = { i18next, initI18next, t, translation }
