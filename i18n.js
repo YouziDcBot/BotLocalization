@@ -17,7 +17,7 @@ async function initI18next() {
                 debug: false,
                 saveMissing: true,
                 saveMissingTo: 'all',
-                fallbackLng: 'zh_TW',
+                fallbackLng: 'zh-TW',
                 initImmediate: false,
                 interpolation: { escapeValue: false },
                 load: 'all',
@@ -47,7 +47,7 @@ const t = i18next.t;
 module.exports = { i18next, initI18next, t, translation };
 
 /**
- * TO-DO: 
+ * TO-DO:
  * 名稱轉換器，用於將不同命名法的名稱轉換為其他命名法的名稱。
  * 讓翻譯格式更加統一，但輸入的方式可以是不同的命名法。
  */

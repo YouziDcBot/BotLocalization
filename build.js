@@ -1,18 +1,18 @@
-const fs = require('fs');
-const yaml = require('yaml');
-const { glob } = require('glob');
-const path = require('path');
+const fs = require("fs");
+const yaml = require("yaml");
+const { glob } = require("glob");
+const path = require("path");
 
 // 讀取 lang.json 文件
 function readLangJson(filePath) {
-    const file = fs.readFileSync(filePath, 'utf8');
+    const file = fs.readFileSync(filePath, "utf8");
     const data = JSON.parse(file);
     return data.languages;
 }
 
 // 讀取 YAML 文件
 function readYamlFile(filePath) {
-    const file = fs.readFileSync(filePath, 'utf8');
+    const file = fs.readFileSync(filePath, "utf8");
     const data = yaml.parse(file);
     return data;
 }
@@ -20,7 +20,7 @@ function readYamlFile(filePath) {
 // 寫入 YAML 文件
 function writeYamlFile(filePath, data) {
     const yamlStr = yaml.stringify(data, {
-        lineWidth: -1, // Disable line wrapping
+        lineWidth: -1 // Disable line wrapping
     });
     // 提取所有鍵以計算最大長度
     const keys = Object.keys(data);
@@ -34,19 +34,19 @@ function writeYamlFile(filePath, data) {
             if (!/^".*"$/.test(value) && !/^-?\d+(\.\d+)?$/.test(value)) {
                 value = `"${ value }"`;
             }
-            return `${ indent }${ key }${ ' '.repeat(maxKeyLength + 2 - key.length) }: ${ value }`;
+            return `${ indent }${ key }${ " ".repeat(maxKeyLength + 2 - key.length) }: ${ value }`;
         }
     );
 
-    fs.writeFileSync(filePath, formattedYamlStr, 'utf8');
+    fs.writeFileSync(filePath, formattedYamlStr, "utf8");
 }
 
-const baseTrans = readYamlFile(path.join(__dirname, 'locate/zh_tw.yml'));
-const langJson = readLangJson(path.join(__dirname, 'lang.json'));
+const baseTrans = readYamlFile(path.join(__dirname, "locate/zh-tw.yml"));
+const langJson = readLangJson(path.join(__dirname, "lang.json"));
 
 // 添加缺失的翻譯項目
 function addMissingTranslations(existingData, baseTranslations) {
-    
+
     const updatedTranslations = { lang: langJson[fileBaseName], ...existingData };
     for (const [key, value] of Object.entries(baseTranslations)) {
         if (!(key in updatedTranslations)) {
@@ -57,7 +57,7 @@ function addMissingTranslations(existingData, baseTranslations) {
 }
 
 // 讀取所有 YAML 文件
-glob('locate/**/*.yml', { ignore: 'node_modules/**' })
+glob("locate/**/*.yml", { ignore: "node_modules/**" })
     .then(files => {
         files.forEach(fileName => {
             // 讀取
@@ -65,7 +65,7 @@ glob('locate/**/*.yml', { ignore: 'node_modules/**' })
             console.log(`正在格式化 ${ fileName }`);
 
             // 更新
-            const fileBaseName = path.basename(fileName, '.yml');
+            const fileBaseName = path.basename(fileName, ".yml");
             const updatedData = { lang: langJson[fileBaseName], ...data };
             for (const [key, value] of Object.entries(baseTrans)) {
                 if (!(key in updatedData)) {
@@ -79,6 +79,4 @@ glob('locate/**/*.yml', { ignore: 'node_modules/**' })
 
         });
     });
-
-
 
