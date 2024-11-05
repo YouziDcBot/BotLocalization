@@ -63,31 +63,52 @@ function readOrInitMissingYamlFile(filePath) {
 const langJson = readLangJson(path.join(__dirname, "lang.json"));
 
 // 讀取所有語言資料夾並進行格式化更新
-glob("locate/*/*.yml", { ignore: ["node_modules/**"] })
+glob("locate/*/!(*.missing).yml", { ignore: ["node_modules/**"] })
     .then(files => {
-        files.forEach(fileName => {
-            // 讀取 YAML 文件
-            const data = readYamlFile(fileName);
-            console.log(`正在格式化 ${ fileName }`);
+        const allData = {};
 
-            // 取得語言和命名空間
+        // 讀取所有 YAML 文件並存儲數據
+        files.forEach(fileName => {
+            const data = readYamlFile(fileName);
             const [lang, namespace] = fileName.split(path.sep).slice(-2).map(name => path.basename(name, ".yml"));
 
-            // 更新語言鍵並標記缺失的翻譯
-            const updatedData = { lang: langJson[lang], ...data };
-            const missingFilePath = fileName.replace(".yml", ".missing.yml");
-            const missingData = readOrInitMissingYamlFile(missingFilePath);
-
-            for (const [key, value] of Object.entries(data)) {
-                if (!(key in updatedData)) {
-                    updatedData[key] = `# Missing: ${ value }`; // 標記缺失翻譯
-                    missingData[key] = `# Missing: ${ value }`; // 添加到缺少的翻譯文件
-                }
+            if (!allData[namespace]) {
+                allData[namespace] = {};
             }
+            allData[namespace][lang] = data;
+        });
 
-            // 寫入格式化的 YAML 文件
-            writeYamlFile(fileName, updatedData);
-            writeYamlFile(missingFilePath, missingData);
-            console.log(`已更新 ${ fileName } 和 ${ missingFilePath }`);
+        // 檢查並填補缺失的翻譯
+        Object.entries(allData).forEach(([namespace, langsData]) => {
+            if (!langsData) return;
+
+            const allKeys = new Set(Object.values(langsData).flatMap(data => data ? Object.keys(data) : []));
+            const allLangs = Object.keys(langJson);
+
+            allLangs.forEach(lang => {
+                const data = langsData[lang] || {};
+                const missingFilePath = path.join(__dirname, `locate/${ lang }/${ namespace }.missing.yml`);
+                const missingData = readOrInitMissingYamlFile(missingFilePath);
+                const updatedData = { ...data };
+
+                allKeys.forEach(key => {
+                    if (!(key in data)) {
+                        missingData[key] = `# Missing: ${ key }`;
+                    }
+                });
+
+                // 檢查 namespace 是否已經包含 '.missing'
+                if (!namespace.endsWith('.missing')) {
+                    writeYamlFile(path.join(__dirname, `locate/${ lang }/${ namespace }.yml`), updatedData);
+                    if (Object.keys(missingData).length > 0) {
+                        writeYamlFile(missingFilePath, missingData);
+                    } else if (fs.existsSync(missingFilePath)) {
+                        fs.unlinkSync(missingFilePath);
+                    }
+                } else {
+                    writeYamlFile(path.join(__dirname, `locate/${ lang }/${ namespace }`), updatedData);
+                }
+                console.log(`已更新 locate/${ lang }/${ namespace }.yml 和 locate/${ lang }/${ namespace }.missing.yml`);
+            });
         });
     });

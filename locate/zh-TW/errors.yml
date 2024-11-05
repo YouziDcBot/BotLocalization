@@ -1,4 +1,3 @@
-lang:                              "繁體中文 (Chinese, Taiwan)"
 invalid_interaction_module:        "無效的互動模組: {{file}}"
 invalid_context_menu_type:         "無效的上下文菜單類型: {{type}}"
 invalid_interaction_type:          "無效的互動類型: {{type}}"
