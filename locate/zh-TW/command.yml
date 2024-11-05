@@ -1,4 +1,4 @@
-ping_name:           "Ping"
+ping_name:           "ping"
 ping_description:    "檢查機器人的延遲"
 server_name:         "伺服器"
 server_description:  "顯示伺服器資訊"
