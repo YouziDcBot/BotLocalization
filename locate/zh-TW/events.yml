@@ -1,1 +1,2 @@
-bot_ready: "機器人以 {{tag}} 登入並且準備完成。"
+lang:       "繁體中文 (Chinese, Taiwan)"
+bot_ready:  "機器人以 {{tag}} 登入並且準備完成。"

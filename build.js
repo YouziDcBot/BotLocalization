@@ -51,29 +51,43 @@ function writeYamlFile(filePath, data) {
     fs.writeFileSync(filePath, formattedYamlStr, "utf8");
 }
 
-// 設定基本翻譯文件和語言映射
-const baseTrans = readYamlFile(path.join(__dirname, "locate/zh-TW.yml"));
+// 讀取或初始化缺少的翻譯文件
+function readOrInitMissingYamlFile(filePath) {
+    if (fs.existsSync(filePath)) {
+        return readYamlFile(filePath);
+    }
+    return {};
+}
+
+// 設定語言映射
 const langJson = readLangJson(path.join(__dirname, "lang.json"));
 
-// 讀取所有 YAML 文件並進行格式化更新
-glob("locate/**/*.yml", { ignore: ["node_modules/**", "locate/**/*.missing.yml"] })
+// 讀取所有語言資料夾並進行格式化更新
+glob("locate/*/*.yml", { ignore: ["node_modules/**"] })
     .then(files => {
         files.forEach(fileName => {
             // 讀取 YAML 文件
             const data = readYamlFile(fileName);
             console.log(`正在格式化 ${ fileName }`);
 
+            // 取得語言和命名空間
+            const [lang, namespace] = fileName.split(path.sep).slice(-2).map(name => path.basename(name, ".yml"));
+
             // 更新語言鍵並標記缺失的翻譯
-            const fileBaseName = path.basename(fileName, ".yml");
-            const updatedData = { lang: langJson[fileBaseName], ...data };
-            for (const [key, value] of Object.entries(baseTrans)) {
+            const updatedData = { lang: langJson[lang], ...data };
+            const missingFilePath = fileName.replace(".yml", ".missing.yml");
+            const missingData = readOrInitMissingYamlFile(missingFilePath);
+
+            for (const [key, value] of Object.entries(data)) {
                 if (!(key in updatedData)) {
                     updatedData[key] = `# Missing: ${ value }`; // 標記缺失翻譯
+                    missingData[key] = `# Missing: ${ value }`; // 添加到缺少的翻譯文件
                 }
             }
 
             // 寫入格式化的 YAML 文件
             writeYamlFile(fileName, updatedData);
-            console.log(`已更新 ${ fileName }`);
+            writeYamlFile(missingFilePath, missingData);
+            console.log(`已更新 ${ fileName } 和 ${ missingFilePath }`);
         });
     });
