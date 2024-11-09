@@ -1,0 +1,6 @@
+permission_SendMessages:           "# Missing: permission_SendMessages"
+permission_SendMessagesInThreads:  "# Missing: permission_SendMessagesInThreads"
+permission_ViewChannel:            "# Missing: permission_ViewChannel"
+permission_EmbedLinks:             "# Missing: permission_EmbedLinks"
+permission_UseExternalEmojis:      "# Missing: permission_UseExternalEmojis"
+permission_ReadMessageHistory:     "# Missing: permission_ReadMessageHistory"

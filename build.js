@@ -100,7 +100,7 @@ glob("locate/*/!(*.missing).yml", { ignore: ["node_modules/**"] })
                 // 檢查 namespace 是否已經包含 '.missing'
                 if (!namespace.endsWith('.missing')) {
                     writeYamlFile(path.join(__dirname, `locate/${ lang }/${ namespace }.yml`), updatedData);
-                    if (Object.keys(missingData).length > 0) {
+                    if (Object.keys(missingData ?? {}).length > 0) {
                         writeYamlFile(missingFilePath, missingData);
                     } else if (fs.existsSync(missingFilePath)) {
                         fs.unlinkSync(missingFilePath);

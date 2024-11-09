@@ -1,0 +1,6 @@
+permission_SendMessages:           "發送訊息"
+permission_SendMessagesInThreads:  "發送訊息於討論串"
+permission_ViewChannel:            "顯示頻道"
+permission_EmbedLinks:             "嵌入連結"
+permission_UseExternalEmojis:      "使用外部表情符號"
+permission_ReadMessageHistory:     "閱讀訊息歷史"
