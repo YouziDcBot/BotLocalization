@@ -14,7 +14,7 @@
   "dependencies": {
     "botlocalization": "file:",
     "glob": "^11.0.0",
-    "i18next": "^23.12.2",
+    "i18next": "^24.0.0",
     "i18next-fs-backend": "^2.3.2",
     "yaml": "^2.5.0"
   }
