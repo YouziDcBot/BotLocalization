@@ -25,7 +25,7 @@ jobs:
       run: node processYamlFiles.js
 
     - name: Commit and push changes
-      uses: EndBug/add-and-commit@v9
+      uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5 # v9
       with:
         add: 'locate/**/*.yml'
         message: 'Update language files after merging translations'
